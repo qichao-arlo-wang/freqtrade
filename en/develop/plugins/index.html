@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../images/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -334,53 +334,6 @@
   
   
   
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Installation
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Installation
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
     <li class="md-nav__item">
       <a href="../installation/" class="md-nav__link">
         
@@ -389,7 +342,7 @@
   <span class="md-ellipsis">
     
   
-    Linux/MacOS/Raspberry
+    Installation
   
 
     
@@ -398,42 +351,6 @@
   
 
       </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../windows_installation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Windows
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -3278,13 +3195,22 @@ If <code>trade_limit</code> or more trades resulted in stoploss, trading will st
 <code>trade_limit</code> and <code>lookback_period</code> will need to be tuned for your strategy.</p>
 </div>
 <h4 id="maxdrawdown">MaxDrawdown<a class="headerlink" href="#maxdrawdown" title="Permanent link">&para;</a></h4>
-<p><code>MaxDrawdown</code> uses all trades within <code>lookback_period</code> in minutes (or in candles when using <code>lookback_period_candles</code>) to determine the maximum drawdown. If the drawdown is below <code>max_allowed_drawdown</code>, trading will stop for <code>stop_duration</code> in minutes (or in candles when using <code>stop_duration_candles</code>) after the last trade - assuming that the bot needs some time to let markets recover.</p>
+<p>The <code>MaxDrawdown</code> protection evaluates trades that closed within the current <code>lookback_period</code> (or <code>lookback_period_candles</code>).<br />
+It supports 2 calculation modes:</p>
+<ul>
+<li><code>calculation_mode: "ratios"</code> (default): Legacy approximation based on cumulative profit ratios.</li>
+<li><code>calculation_mode: "equity"</code>: Standard peak-to-trough drawdown on the account equity curve, using starting balance and cumulative absolute profit.</li>
+</ul>
+<p>With <code>calculation_mode: "ratios"</code>, drawdown is derived from cumulative trade profit ratios, not from the account equity curve. This is kept for backward compatibility and can differ from account-level drawdown when position sizing changes over time.</p>
+<p>For new setups, <code>calculation_mode: "equity"</code> is recommended. Prefer <code>calculation_mode: "ratios"</code> only when you intentionally rely on legacy behavior, especially with fixed stake amount configurations where ratio-based behavior is easier to reason about.</p>
+<p>If the observed drawdown exceeds <code>max_allowed_drawdown</code>, trading will stop for <code>stop_duration</code> after the last trade - assuming that the bot needs some time to let markets recover.</p>
 <p>The below sample stops trading for 12 candles if max-drawdown is &gt; 20% considering all pairs - with a minimum of <code>trade_limit</code> trades - within the last 48 candles. If desired, <code>lookback_period</code> and/or <code>stop_duration</code> can be used.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">protections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span>  <span class="p">[</span>
         <span class="p">{</span>
             <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;MaxDrawdown&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;calculation_mode&quot;</span><span class="p">:</span> <span class="s2">&quot;equity&quot;</span><span class="p">,</span>
             <span class="s2">&quot;lookback_period_candles&quot;</span><span class="p">:</span> <span class="mi">48</span><span class="p">,</span>
             <span class="s2">&quot;trade_limit&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
             <span class="s2">&quot;stop_duration_candles&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
@@ -3352,6 +3278,7 @@ All protections are evaluated in the sequence they are defined.</p>
             <span class="p">},</span>
             <span class="p">{</span>
                 <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;MaxDrawdown&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;calculation_mode&quot;</span><span class="p">:</span> <span class="s2">&quot;equity&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;lookback_period_candles&quot;</span><span class="p">:</span> <span class="mi">48</span><span class="p">,</span>
                 <span class="s2">&quot;trade_limit&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
                 <span class="s2">&quot;stop_duration_candles&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
@@ -3485,10 +3412,10 @@ All protections are evaluated in the sequence they are defined.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.annotate", "search.share", "content.code.copy", "content.action.edit", "navigation.top", "navigation.footer"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.annotate", "search.share", "content.code.copy", "content.action.edit", "navigation.top", "navigation.footer"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="../javascripts/config.js"></script>
       
