@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../images/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -2520,6 +2520,11 @@ Users who prefer docker should ensure they use the docker image appended with <c
 We do provide an explicit docker-compose file for this in <code>docker/docker-compose-freqai.yml</code> - which can be used via <code>docker compose -f docker/docker-compose-freqai.yml run ...</code> - or can be copied to replace the original docker file.
 This docker-compose file also contains a (disabled) section to enable GPU resources within docker containers. This obviously assumes the system has GPU resources available.</p>
 <p>PyTorch dropped support for macOS x64 (intel based Apple devices) in version 2.3. Subsequently, freqtrade also dropped support for PyTorch on this platform.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Security notice</p>
+<p>Loading saved models from disk can cause security issues if using remote model files (files you downloaded from the internet or received from an untrusted source) due to having the necessity to have <code>weights_only=False</code>, which can cause security problems.
+As long as you only load models that you have trained yourself, there is no risk.</p>
 </div>
 <h3 id="structure">Structure<a class="headerlink" href="#structure" title="Permanent link">&para;</a></h3>
 <h4 id="model">Model<a class="headerlink" href="#model" title="Permanent link">&para;</a></h4>
