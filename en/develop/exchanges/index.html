@@ -1488,6 +1488,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#bybit-demo-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bybit Demo Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1545,10 +1556,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#hyperliquid-vault-subaccount" class="md-nav__link">
+  <a href="#hyperliquid-subaccount" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hyperliquid Vault / Subaccount
+        Hyperliquid Subaccount
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hyperliquid-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hyperliquid Vault
       
     </span>
   </a>
@@ -2531,6 +2553,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#bybit-demo-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bybit Demo Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2588,10 +2621,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#hyperliquid-vault-subaccount" class="md-nav__link">
+  <a href="#hyperliquid-subaccount" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hyperliquid Vault / Subaccount
+        Hyperliquid Subaccount
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hyperliquid-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hyperliquid Vault
       
     </span>
   </a>
@@ -2714,13 +2758,17 @@
 <h1 id="exchange-specific-notes">Exchange-specific Notes<a class="headerlink" href="#exchange-specific-notes" title="Permanent link">&para;</a></h1>
 <p>This page combines common gotchas and Information which are exchange-specific and most likely don't apply to other exchanges.</p>
 <h2 id="quick-overview-of-supported-exchange-features">Quick overview of supported exchange features<a class="headerlink" href="#quick-overview-of-supported-exchange-features" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Supported exchanges</p>
+<p>The below list <strong>only</strong> contains <strong>supported exchanges</strong>. Other exchanges may work, but will not have stoploss on exchange available.</p>
+</div>
 <table>
 <thead>
 <tr>
 <th>Exchange</th>
 <th>Mode</th>
 <th>Margin mode</th>
-<th>Stoploss type</th>
+<th>Stoploss on exchange</th>
 </tr>
 </thead>
 <tbody>
@@ -2746,7 +2794,7 @@
 <td><a href="./#bitmart">Bitmart</a></td>
 <td>spot</td>
 <td></td>
-<td>❌ (not supported)</td>
+<td>❌ (not available)</td>
 </tr>
 <tr>
 <td><a href="./#bitget">Bitget</a></td>
@@ -2764,7 +2812,7 @@
 <td><a href="./#bybit">Bybit</a></td>
 <td>spot</td>
 <td></td>
-<td>❌ (not supported)</td>
+<td>❌ (not available)</td>
 </tr>
 <tr>
 <td><a href="./#bybit">Bybit</a></td>
@@ -2794,7 +2842,7 @@
 <td><a href="./#hyperliquid">Hyperliquid</a></td>
 <td>spot</td>
 <td></td>
-<td>❌ (not supported)</td>
+<td>❌ (not available)</td>
 </tr>
 <tr>
 <td><a href="./#hyperliquid">Hyperliquid</a></td>
@@ -2830,7 +2878,7 @@
 <td><a href="./#bitvavo">Bitvavo</a></td>
 <td>spot</td>
 <td></td>
-<td>❌ (not supported)</td>
+<td>❌ (not available)</td>
 </tr>
 <tr>
 <td><a href="./#kucoin">Kucoin</a></td>
@@ -3109,6 +3157,11 @@ Other configurations (multiple bots on one account, manual non-bot trades on the
 <li>Contract - Positions</li>
 </ul>
 <p>We do strongly recommend to limit all API keys to the IP you're going to use it from.</p>
+<h3 id="bybit-demo-mode">Bybit Demo Mode<a class="headerlink" href="#bybit-demo-mode" title="Permanent link">&para;</a></h3>
+<p>Bybit has a <a href="https://learn.bybit.com/en/bybit-guide/how-to-use-bybit-demo-trading">demo mode</a> - which can be activated by setting <code>exchange.demo_trading</code> to <code>true</code> in the configuration.
+Bybit uses live markets to simulate your trades (without market impact) - making it work very similar to freqtrade's dry-run mode.  </p>
+<p>You'll need to use separate API keys for demo trading, which you can create on bybit's demo page.</p>
+<p>Demo mode is incompatible with dry-run.</p>
 <h2 id="bitmart">Bitmart<a class="headerlink" href="#bitmart" title="Permanent link">&para;</a></h2>
 <p>Bitmart requires the API key Memo (the name you give the API key) to go along with the exchange key and secret.
 It's therefore required to pass the UID as well.</p>
@@ -3185,27 +3238,41 @@ Unfortunately, hyperliquid only offers 5000 historic candles, so backtesting wil
 <li>If you have funds you don't want to use for trading (after making a profit for example), transfer them back to your hardware wallet.</li>
 </ul>
 </div>
-<h3 id="hyperliquid-vault-subaccount">Hyperliquid Vault / Subaccount<a class="headerlink" href="#hyperliquid-vault-subaccount" title="Permanent link">&para;</a></h3>
-<p>Hyperliquid allows you to create either a vault or a subaccount.<br />
-To use these with Freqtrade, you will need to use the following configuration pattern:</p>
+<div class="admonition warning">
+<p class="admonition-title">Vaults and Subaccounts</p>
+<p>You can only use either a vault or a subaccount - not both at the same time.</p>
+</div>
+<h3 id="hyperliquid-subaccount">Hyperliquid Subaccount<a class="headerlink" href="#hyperliquid-subaccount" title="Permanent link">&para;</a></h3>
+<p>Hyperliquid allows you to create subaccounts with sufficient previous trading volume.<br />
+To use subaccounts with Freqtrade, you will need to use the following configuration pattern:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;exchange&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hyperliquid&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;walletAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your_master_wallet_address&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Your master wallet address (not the API wallet address and not the vault/subaccount address).</span>
+<span class="w">    </span><span class="nt">&quot;walletAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your_master_wallet_address&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Your master wallet address (not the API wallet or vault address - but not subaccount address).</span>
 <span class="w">    </span><span class="nt">&quot;privateKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your_api_private_key&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// API wallet private key (see https://app.hyperliquid.xyz/API). You&#39;ll only need the private key.</span>
 <span class="w">    </span><span class="nt">&quot;ccxt_config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;vaultAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your_vault_address&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Optional, only if you want to use a vault ...</span>
-<span class="w">            </span><span class="nt">&quot;subAccountAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your_subaccount_address&quot;</span><span class="w"> </span><span class="c1">// OR optional, only if you want to use a subaccount</span>
+<span class="w">            </span><span class="nt">&quot;subAccountAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your_subaccount_address&quot;</span><span class="w"> </span><span class="c1">// Required if you want to use a subaccount.</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="c1">// ...</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Your balance and trades will now be used from your vault / subaccount - and no longer from your main account.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You can only use either a vault or a subaccount - not both at the same time.</p>
-</div>
+<p>Your balance and trades will now be used from your subaccount - and no longer from your main account.</p>
+<h3 id="hyperliquid-vault">Hyperliquid Vault<a class="headerlink" href="#hyperliquid-vault" title="Permanent link">&para;</a></h3>
+<p>Hyperliquid allows you to create vaults. To use vaults with Freqtrade, you will need to use the following configuration pattern:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;exchange&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hyperliquid&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;walletAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your_vault_address&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Your vault wallet address (Must also be added below in the ccxt_config.options.vaultAddress field)</span>
+<span class="w">    </span><span class="nt">&quot;privateKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your_api_private_key&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// API wallet private key (see https://app.hyperliquid.xyz/API). You&#39;ll only need the private key.</span>
+<span class="w">    </span><span class="nt">&quot;ccxt_config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;vaultAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your_vault_address&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Optional, only if you want to use a vault ... (vault address must also be added to walletAdress)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Your balance and trades will now be used from your vault - and no longer from your main account.</p>
 <h3 id="historic-hyperliquid-data">Historic Hyperliquid data<a class="headerlink" href="#historic-hyperliquid-data" title="Permanent link">&para;</a></h3>
 <p>The Hyperliquid API does not provide historic data beyond the single call to fetch current data, so downloading data is not possible, as the downloaded data would not constitute proper historic data.</p>
 <h3 id="hip-3-dexes">HIP-3 DEXes<a class="headerlink" href="#hip-3-dexes" title="Permanent link">&para;</a></h3>
